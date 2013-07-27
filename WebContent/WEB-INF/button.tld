@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" 
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>0.1</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<uri>/hq</uri>
+	<short-name>hq</short-name>
+	<tag>
+		<name>button</name>
+		<tag-class>soy.basic.tag.ButtonTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>functionId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>script</name>
+		<tag-class>soy.basic.tag.ScriptTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>functionName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>action</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>function</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

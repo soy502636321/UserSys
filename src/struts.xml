@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<!-- struts.ui.theme=simple可以解决struts2标签自动换行问题，即不再自动被添加进table标签中 -->
+	<constant name="struts.ui.theme" value="simple" /> 
+	<constant name="struts.ui.templateDir" value="template" /> 
+	<constant name="struts.ui.templateSuffix" value="ftl" /> 
+
+	<!-- 处理编码乱码问题 -->
+	<!-- <constant name="struts.i18n.encoding" value="gbk"></constant>-->
+	<constant name="struts.i18n.encoding" value="UTF-8" />	
+	
+	<constant name="struts.objectFactory" value="spring"></constant>
+	
+	
+	<constant name="struts.devMode" value="false" />
+	
+	
+	
+	<!-- session超时拦截器 -->
+	<package name="iterceptor" namespace="/" extends="struts-default">
+		<interceptors>
+            <!-- 自定义拦截器 -->
+            <interceptor name="permission" class="soy.basic.iterceptor.SessionIterceptor" />
+            <!-- 配制默许的拦截器到拦截器栈 -->
+            <interceptor-stack name="permissionStack">
+                <!-- 此处先后顺序没影响-->
+                <interceptor-ref name="permission" />
+                <interceptor-ref name="defaultStack" />
+                
+                <!-- 防止重复提交 -->
+                <!--<interceptor-ref name="token" /> -->
+            </interceptor-stack>
+        </interceptors>
+        <!-- 配置默认的拦截器 -->
+        <default-interceptor-ref name="permissionStack" />
+        
+        <!-- 配置默认的类 -->
+        <default-class-ref class="com.opensymphony.xwork2.ActionSupport"></default-class-ref>
+        
+        <!-- 全局变量,超时返回登录页面 -->
+        <global-results>
+            <result name="loginPage">/include/session.jsp</result>
+            <result name="error">error.jsp</result>
+            <result name="invalid.token">error.jsp</result>
+        </global-results>
+        
+        		
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+ 	</package>
+ 
+ 	<!-- session超时不需要返回登录页面的配置文件 -->
+	<package  name="noIterceptor" namespace="/" extends="struts-default">
+	</package>
+	<!-- session超时返回登录页面的配置文件 -->
+	<package name="nscloud" namespace="/" extends="iterceptor">
+	</package>
+	
+	
+	<!-- 登录模块 -->
+	<package name="loginModel" extends="struts-default" namespace="/login">
+		<action name="loginAction" class="soy.web.action.LoginAction">
+			<result name="success">/main.jsp</result>
+			<result name="loginPage">/login.jsp</result>
+			<result name="fail">/login.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 人员管理模块 -->
+	<package name="workerModel" extends="iterceptor" namespace="/worker">
+		<action name="workerAction" class="soy.web.action.WorkerAction">
+			<result name="query">/jsp/worker/workerQuery.jsp</result>
+			<result name="add">/jsp/worker/worker.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 公司管理模块 -->
+	<package name="baseOrganModel" extends="iterceptor" namespace="/baseOrgan">
+		<action name="baseOrganAction" class="soy.web.action.BaseOrganAction">
+			<result name="query">/jsp/baseOrgan/baseOrganQuery.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 系统管理模块 -->
+	<package name="systemModel" extends="iterceptor" namespace="/system">
+		<action name="sysUserAction" class="soy.web.action.SysUserAction">
+			<result name="query">/jsp/system/user/userQuery.jsp</result>
+		</action>
+		<action name="baseAccountAction" class="soy.web.action.BaseAccountAction">
+			<result name="query">/jsp/system/account/accountQuery.jsp</result>
+			<result name="add">/jsp/system/account/account.jsp</result>
+		</action>
+		<action name="baseEducationalAction" class="soy.web.action.BaseEducationalAction">
+			<result name="query">/jsp/system/educational/educationalQuery.jsp</result>
+			<result name="add">/jsp/system/educational/educational.jsp</result>
+		</action>
+	</package>
+</struts>    

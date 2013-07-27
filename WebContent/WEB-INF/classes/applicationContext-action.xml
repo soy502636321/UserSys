@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	
+	<bean id="loginAction" class="soy.web.action.LoginAction">
+		<property name="userService" ref="userService"/>
+		<property name="systemService" ref="systemService" />
+	</bean>
+	
+	<bean id="workerAction" class="soy.web.action.WorkerAction">
+		<property name="workerService" ref="workerService" />
+		<property name="baseOrganService" ref="baseOrganService" />
+		<property name="baseAccountService" ref="baseAccountService" />
+		<property name="baseEducationalService" ref="baseEducationalService" />
+	</bean>
+	
+	<bean id="baseOrganAction" class="soy.web.action.BaseOrganAction">
+		<property name="baseOrganService" ref="baseOrganService" />
+	</bean>
+	
+	<bean id="sysUserAction" class="soy.web.action.SysUserAction">
+		<property name="userService" ref="userService" />
+	</bean>
+	
+	<bean id="baseAccountAction" class="soy.web.action.BaseAccountAction">
+		<property name="baseAccountService" ref="baseAccountService" />
+	</bean>
+	
+	<bean id="baseEducationalAction" class="soy.web.action.BaseEducationalAction">
+		<property name="baseEducationalService" ref="baseEducationalService" />
+	</bean>
+</beans>

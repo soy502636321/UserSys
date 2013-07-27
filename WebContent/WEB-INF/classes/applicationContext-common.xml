@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!--<property name="location" value="/WEB-INF/dataSource.properties"></property> -->
+		<property name="location" value="classpath:dataSource.properties"></property>
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="${hibernate.jndiName}"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>soy/basic/database/entity/BaseAccount.hbm.xml</value>
+				<value>soy/basic/database/entity/BaseEducational.hbm.xml</value>
+				<value>soy/basic/database/entity/BaseOrgan.hbm.xml</value>
+				<value>soy/basic/database/entity/SysFunction.hbm.xml</value>
+				<value>soy/basic/database/entity/SysRole.hbm.xml</value>
+				<value>soy/basic/database/entity/SysRoleFunction.hbm.xml</value>
+				<value>soy/basic/database/entity/SysUser.hbm.xml</value>
+				<value>soy/basic/database/entity/SysWorker.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 定义事务管理 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<!-- 定义事务管理拦截器 -->
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 定义代理自动管理事务 -->
+	<bean id="ProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<!-- 指定需要Spring管理事务的Bean -->
+		<property name="beanNames">
+			<list>
+				<value>sectionFunctionDAO</value>
+				<value>baseEducationalDAO</value>
+				<value>baseOrganDAO</value>
+				<value>baseAccountDAO</value>
+				<value>sysFunctionDAO</value>
+				<value>sysRoleDAO</value>
+				<value>sysRoleFunctionDAO</value>
+				<value>sysUserDAO</value>
+				<value>sysWorkerDAO</value>
+			</list>
+		</property>
+
+		<!-- 调用事务管理拦截器 -->
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

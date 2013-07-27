@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="userService" class="soy.web.service.impl.UserServiceImpl">
+		<property name="sysFunctionDAO" ref="sysFunctionDAO" />
+		<property name="sysUserDAO" ref="sysUserDAO" />
+	</bean>
+
+	<bean id="systemService" class="soy.web.service.impl.SystemServiceImpl">
+		<property name="sysRoleFunctionDAO" ref="sysRoleFunctionDAO" />
+		<property name="sysRoleDAO" ref="sysRoleDAO" />
+		<property name="sysFunctionDAO" ref="sysFunctionDAO" />
+	</bean>
+
+	<bean id="workerService" class="soy.web.service.impl.WorkerServiceImpl">
+		<property name="sysWorkerDAO" ref="sysWorkerDAO" />
+		<property name="baseOrganDAO" ref="baseOrganDAO" />
+		<property name="baseAccountDAO" ref="baseAccountDAO" />
+		<property name="baseEducationalDAO" ref="baseEducationalDAO" />
+	</bean>
+	
+	<bean id="baseOrganService" class="soy.web.service.impl.BaseOrganServiceImpl">
+		<property name="baseOrganDAO" ref="baseOrganDAO" />
+	</bean>
+	
+	<bean id="baseAccountService" class="soy.web.service.impl.BaseAccountServiceImpl">
+		<property name="baseAccountDAO" ref="baseAccountDAO" />
+	</bean>
+
+	<bean id="baseEducationalService" class="soy.web.service.impl.BaseEducationalServiceImpl">
+		<property name="baseEducationalDAO" ref="baseEducationalDAO" />
+	</bean>
+</beans>
